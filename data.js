@@ -232,7 +232,9 @@ const ITEMS = [
     id: "w-rain", cat: "water", p: 3, src: [35, 48], when: (c) => c.days >= 30,
     name: "Rain catchment with first-flush diverter",
     qty: () => "1 system",
-    why: "Roof ft² × inches of rain × 0.53 = gallons. Divert 1 gal per 100 ft² of roof first, screen inlets, and treat before drinking.",
+    why: (c) => (c.metric
+      ? "Roof m² × mm of rain × 0.85 = litres. Divert about 0.4 L per m² of roof first, screen inlets, and treat before drinking."
+      : "Roof ft² × inches of rain × 0.53 = gallons. Divert 1 gal per 100 ft² of roof first, screen inlets, and treat before drinking."),
   },
 
   /* ───────────── FOOD: no-cook (days 1–3) ───────────── */

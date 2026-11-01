@@ -121,12 +121,73 @@ function buildContext(h) {
   c.waterStore = c.waterDay * c.waterDays;
   c.tiers = { nc: Math.min(days, 3), pt: Math.max(0, Math.min(days, 14) - 3), st: Math.max(0, days - 14) };
   c.cookDays = days - c.tiers.nc;
+  c.metric = isMetric();
   return c;
 }
 
 /* ───────── helpers ───────── */
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+/* Units. Content is written in US units; in metric mode every "number + unit" in displayed text is
+ * converted on the way out (esc, describe, copy list), so the data files stay single-source. */
+const isMetric = () => view.units === "metric";
+const FRAC = { "½": 0.5, "¼": 0.25, "¾": 0.75, "⅓": 1 / 3 };
+const NUM = "-?(?:\\d[\\d,]*(?:\\.\\d+)?[½¼¾⅓]?|[½¼¾⅓])";
+const UNIT_RE = new RegExp(`(${NUM})(?:\\s?–\\s?(${NUM}))?(\\+)?(\\s|-)(gallons?|gal|quarts?|qt|ounces?|oz|pounds?|lbs?|ft²|feet|foot|ft|inches|inch|miles?|mi|cups?)(?![a-zA-Z])`, "g");
+const TEMP_RE = new RegExp(`(${NUM})(?:\\s?–\\s?(${NUM}))?°F`, "g");
+function parseNum(t) {
+  const f = /[½¼¾⅓]$/.test(t) ? FRAC[t.slice(-1)] : 0;
+  const base = t.replace(/[½¼¾⅓]$/, "").replace(/,/g, "");
+  const n = base === "" || base === "-" ? 0 : +base;
+  return (base.startsWith("-") ? -1 : 1) * (Math.abs(n) + f);
+}
+function nice(x) {
+  const a = Math.abs(x);
+  if (a < 10) return String(Math.round(x * 10) / 10);
+  if (a < 100) return String(Math.round(x));
+  if (a < 1000) return String(Math.round(x / 5) * 5);
+  const p = 10 ** (Math.floor(Math.log10(a)) - 2);
+  return (Math.round(x / p) * p).toLocaleString();
+}
+// [factor, metric unit, factor and unit used when the result is under 1]
+const CONV = {
+  gal: [3.785, "L"], qt: [0.946, "L"], lb: [0.4536, "kg", 453.6, "g"], ft: [0.3048, "m", 30.48, "cm"],
+  "ft²": [0.0929, "m²"], inch: [2.54, "cm"], mi: [1.609, "km"], cup: [237, "mL"], ozw: [28.35, "g"], ozf: [29.57, "mL"],
+};
+const unitKey = (u) => ({ gallon: "gal", gallons: "gal", quart: "qt", quarts: "qt", pound: "lb", pounds: "lb", lbs: "lb", feet: "ft", foot: "ft", inches: "inch", mile: "mi", miles: "mi", cups: "cup" }[u] || u);
+function toMetric(s) {
+  return String(s)
+    .replace(UNIT_RE, (all, a, b, plus, sep, u, at, str) => {
+      let k = unitKey(u);
+      if (k === "oz" || k === "ounce" || k === "ounces") {
+        // Fluid ounces for drinks; weight ounces for cans and jars.
+        const near = str.slice(Math.max(0, at - 40), at + all.length + 30);
+        k = /milk|bottle|box|formula|drink|juice|\/day/i.test(near) ? "ozf" : "ozw";
+      }
+      const [f, unit, f2, unit2] = CONV[k];
+      const x = parseNum(a), y = b ? parseNum(b) : null;
+      const small = f2 && Math.abs(Math.max(x, y ?? x) * f) < 1;
+      const conv = (n) => nice(n * (small ? f2 : f));
+      return `${conv(x)}${y !== null ? "–" + conv(y) : ""}${plus || ""}${sep === "-" ? "-" : " "}${small ? unit2 : unit}`;
+    })
+    .replace(TEMP_RE, (all, a, b, at, str) => {
+      // A temperature difference ("every 18°F hotter", "1°F/h") scales without the 32° offset.
+      const diff = /^(\s*(hotter|colder|warmer|cooler|below you)|\/h)/.test(str.slice(at + all.length)) || /every\s*$/.test(str.slice(0, at));
+      const c = (n) => String(Math.round(diff ? (parseNum(n) * 5) / 9 : ((parseNum(n) - 32) * 5) / 9));
+      return `${c(a)}${b ? "–" + c(b) : ""}°C`;
+    })
+    .replace(/([\d.,]+) (mL|kcal) per (lb|pound)\b/g, (all, n, u) => `${nice(parseNum(n) * 2.2046)} ${u} per kg`)
+    .replace(/\bper pound\b/g, "per kilo")
+    .replace(/\bper gallon\b/g, "per 3.8 L")
+    .replace(/\bper quart\b/g, "per litre")
+    .replace(/\bOne gallon per person\b/g, "3.8 L (one gallon) per person")
+    .replace(/\bthe first gallon\b/g, "the first 4 L")
+    .replace(/\bgallon-per-person\b/g, "3.8-litre-per-person")
+    .replace(/\bA quart of\b/g, "A litre of")
+    .replace(/\bhalf a mile\b/g, "800 m")
+    .replace(/\bup to a mile\b/g, "up to 1.5 km");
+}
+const U = (s) => (isMetric() ? toMetric(s) : String(s));
+const esc = (s) => U(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 const val = (f, c) => (typeof f === "function" ? f(c) : f);
 const fmt = (n) => (Number.isInteger(n) ? n.toLocaleString() : n.toLocaleString(undefined, { maximumFractionDigits: 1 }));
 function qtyText(item, c) {
@@ -177,11 +238,7 @@ function memberRow(m, i) {
       ${m.age >= 12 ? `<select id="m${i}-sex" data-i="${i}" data-k="sex" aria-label="Sex"><option value="M" ${m.sex === "M" ? "selected" : ""}>Male</option><option value="F" ${m.sex === "F" ? "selected" : ""}>Female</option></select>` : ""}
       <button class="icon-btn" data-remove="${i}" aria-label="Remove ${esc(m.label)}">×</button>
     </div>
-    <div class="member-size">
-      <label class="m-age">Height <input type="number" id="m${i}-ft" min="0" max="8" step="1" data-i="${i}" data-k="ft" value="${m.heightIn ? Math.floor(m.heightIn / 12) : ""}" aria-label="Height, feet"> ft
-        <input type="number" id="m${i}-in" min="0" max="11" step="1" data-i="${i}" data-k="in" value="${m.heightIn ? m.heightIn % 12 : ""}" aria-label="Height, inches"> in</label>
-      <label class="m-age">Weight <input type="number" id="m${i}-lb" min="0" max="600" step="1" data-i="${i}" data-k="lb" value="${m.weightLb || ""}"> lb</label>
-    </div>
+    <div class="member-size">${sizeFields(m, i)}</div>
     <div class="flags">
       ${canPreg ? flag("pregnant", "Pregnant") : ""}
       ${canPreg && m.pregnant ? `<select id="m${i}-tri" data-i="${i}" data-k="trimester" aria-label="Trimester">${[1, 2, 3].map((t) => `<option value="${t}" ${(m.trimester || 2) === t ? "selected" : ""}>Trimester ${t}</option>`).join("")}</select>` : ""}
@@ -192,13 +249,26 @@ function memberRow(m, i) {
     <div class="member-meta">${describe(m)}</div>
   </div>`;
 }
+// Height and weight are stored in inches and pounds; metric mode shows and accepts cm and kg.
+function sizeFields(m, i) {
+  const num = (k, v, max, label) =>
+    `<input type="number" id="m${i}-${k}" min="0" max="${max}" step="1" data-i="${i}" data-k="${k}" value="${v}" aria-label="${label}">`;
+  if (isMetric()) {
+    return `<label class="m-age">Height ${num("cm", m.heightIn ? Math.round(m.heightIn * 2.54) : "", 250, "Height, cm")} cm</label>
+      <label class="m-age">Weight ${num("kg", m.weightLb ? Math.round(m.weightLb * 0.4536) : "", 300, "Weight, kg")} kg</label>`;
+  }
+  const h = Math.round(m.heightIn || 0);
+  return `<label class="m-age">Height ${num("ft", h ? Math.floor(h / 12) : "", 8, "Height, feet")} ft
+      ${num("in", h ? h % 12 : "", 11, "Height, inches")} in</label>
+      <label class="m-age">Weight ${num("lb", m.weightLb ? Math.round(m.weightLb) : "", 600, "Weight, lb")} lb</label>`;
+}
 function describe(m) {
   const k = kcalFor(m);
   const parts = [];
   parts.push(k ? `${k.toLocaleString()} kcal/day` : "formula / breast milk");
   parts.push(`${waterFor(m)} gal water/day`);
   if (m.age >= 1) parts.push(hasSize(m) ? "from height & weight" : "average for age");
-  return parts.join(" · ");
+  return U(parts.join(" · "));
 }
 
 function renderHousehold() {
@@ -226,7 +296,7 @@ function renderResults() {
   const essDone = ess.filter((it) => checks[it.id]).length;
 
   document.getElementById("summary").innerHTML = `
-    <div class="stat"><span class="stat-k">Water to store</span><span class="stat-v">${fmt(Math.ceil(c.waterStore))}<small> gal</small></span><span class="stat-s">${c.waterDay.toFixed(2)} gal/day × ${c.waterDays} days</span></div>
+    <div class="stat"><span class="stat-k">Water to store</span><span class="stat-v">${U(`${fmt(Math.ceil(c.waterStore))} gal`).replace(/ (\S+)$/, "<small> $1</small>")}</span><span class="stat-s">${U(`${c.waterDay.toFixed(2)} gal`)}/day × ${c.waterDays} days</span></div>
     <div class="stat"><span class="stat-k">Food energy</span><span class="stat-v">${fmt(c.kcalDay)}<small> kcal/day</small></span><span class="stat-s">${fmt(c.kcalDay * c.days)} kcal over ${c.days} days</span></div>
     <div class="stat"><span class="stat-k">Food tiers</span><span class="stat-v tiers"><b>${c.tiers.nc}</b>/<b>${c.tiers.pt}</b>/<b>${c.tiers.st}</b><small> days</small></span><span class="stat-s">no-cook / pantry / staples</span></div>
     <div class="stat"><span class="stat-k">Essentials ready</span><span class="stat-v">${essDone}<small> of ${ess.length}</small></span>
@@ -335,6 +405,8 @@ function showTab() {
   document.getElementById("guide").hidden = view.tab !== "guide";
   document.getElementById("checklist").hidden = view.tab !== "list";
   document.querySelectorAll("[data-order]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.order === view.order)));
+  document.querySelectorAll("[data-units]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.units === (view.units || "us"))));
+  document.querySelectorAll("[data-u]").forEach((el) => { el.dataset.u ||= el.textContent; el.textContent = U(el.dataset.u); });
 }
 
 function altBlock(a, c) {
@@ -412,13 +484,14 @@ document.addEventListener("input", (e) => {
       const band = (x) => (x < 4 ? 0 : x < 12 ? 1 : x <= 55 ? 2 : 3);
       commit(false);
       if (band(before) !== band(a)) { renderHousehold(); document.getElementById(`m${t.dataset.i}-age`)?.focus(); }
-    } else if (k === "ft" || k === "in" || k === "lb") {
+    } else if (["ft", "in", "lb", "cm", "kg"].includes(k)) {
       // Blank fields fall back to the age averages.
       const row = t.closest(".member");
       const num = (key) => Math.max(0, +row.querySelector(`[data-k="${key}"]`).value || 0);
-      const h = num("ft") * 12 + num("in");
+      const h = isMetric() ? num("cm") / 2.54 : num("ft") * 12 + num("in");
+      const w = isMetric() ? num("kg") / 0.4536 : num("lb");
       if (h > 0) m.heightIn = h; else delete m.heightIn;
-      if (num("lb") > 0) m.weightLb = num("lb"); else delete m.weightLb;
+      if (w > 0) m.weightLb = w; else delete m.weightLb;
       row.querySelector(".member-meta").textContent = describe(m);
       commit(false);
     } else {
@@ -474,6 +547,7 @@ document.addEventListener("click", (e) => {
   if (!b) return;
   if (b.dataset.tab) { view.tab = b.dataset.tab; save(STORE_VIEW, view); return showTab(); }
   if (b.dataset.order) { view.order = b.dataset.order; save(STORE_VIEW, view); showTab(); return renderResults(); }
+  if (b.dataset.units) { view.units = b.dataset.units; save(STORE_VIEW, view); showTab(); return commit(true); }
   if (b.dataset.days) { hh.days = +b.dataset.days; return commit(true); }
   if (b.dataset.remove !== undefined) { hh.members.splice(+b.dataset.remove, 1); return commit(true); }
   if (b.id === "add-member") { hh.members.push({ label: `Person ${hh.members.length + 1}`, age: 30, sex: "F" }); return commit(true); }
@@ -497,7 +571,7 @@ function copyList(btn) {
     if (!todo.length) continue;
     todo.sort(bySurvival);
     lines.push("", name.toUpperCase());
-    for (const it of todo) lines.push(`[ ] ${val(it.name, c)} — ${qtyText(it, c)}`);
+    for (const it of todo) lines.push(U(`[ ] ${val(it.name, c)} — ${qtyText(it, c)}`));
   }
   const text = lines.join("\n");
   const ok = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy shopping list"), 2000); };

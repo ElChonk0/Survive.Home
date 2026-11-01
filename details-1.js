@@ -36,7 +36,7 @@ Object.assign(DETAILS, {
     use: "Fill it the moment a hurricane, ice storm or other warning is announced, or at the first sign of any major outage. Use the included pump to draw drinking water, and keep the liner covered. If you have no liner, fill the bare tub anyway and use that water for flushing (pour a bucket into the bowl) and washing. Empty and dry the liner after use so it stores clean.",
   },
   "w-rain": {
-    why: "In a long emergency, the roof is the biggest water source you have. A 1,000 ft² roof yields about 530 gallons from one inch of rain. A first-flush diverter dumps the dirtiest first water (droppings, dust), which can carry 100× more bacteria than what follows. Roof materials can add chemicals, so rainwater is always treated before drinking.",
+    why: "In a long emergency, the roof is the biggest water source you have. A 1,000 ft² roof yields about 530 gallons from 1 inch of rain. A first-flush diverter dumps the dirtiest first water (droppings, dust), which can carry 100× more bacteria than what follows. Roof materials can add chemicals, so rainwater is always treated before drinking.",
     use: "Install it in good weather: an opaque tank in shade, a 100-micron inlet screen, mosquito mesh on every opening, and overflow aimed at least 6 ft from the foundation. Use the water first for flushing, washing and the garden. For drinking, filter it and then add bleach or tablets. Drain the system before the first hard frost.",
   },
 
