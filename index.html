@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c2a25">
+<meta name="description" content="Emergency-prep checklist that scales quantities to your household. Works offline.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Survive.Home">
+<title>Survive.Home</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-ledger — household setup pinned on the left, the computed checklist scrolling on the right. */
+:root {
+  --paper: #eceee8;
+  --card: #f7f8f4;
+  --ink: #1c2a25;
+  --muted: #56665e;
+  --line: #ccd2c8;
+  --accent: #a85a17;
+  --accent-soft: #f1e2d2;
+  --p2: #3d5a73;
+  --p3: #737a80;
+  --good: #2c7449;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131916; --card: #1a221e; --ink: #e3e9e3; --muted: #95a49c; --line: #2d3832;
+    --accent: #e39a52; --accent-soft: #3a2a1b; --p2: #93b3cf; --p3: #9aa1a6; --good: #6cc08e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131916; --card: #1a221e; --ink: #e3e9e3; --muted: #95a49c; --line: #2d3832;
+  --accent: #e39a52; --accent-soft: #3a2a1b; --p2: #93b3cf; --p3: #9aa1a6; --good: #6cc08e;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap {
+  max-width: 1240px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+header.top { border-bottom: 2px solid var(--ink); padding-block: 28px 18px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 800 clamp(30px, 5vw, 50px)/1 var(--display); font-stretch: 78%; letter-spacing: -.01em; margin: 10px 0 10px; text-wrap: balance; text-transform: uppercase; }
+.lede { max-width: 68ch; color: var(--muted); margin: 0; }
+.lede a { color: inherit; }
+
+.layout { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 32px; padding-block: 24px 64px; align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+aside.setup { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow-y: auto; display: flex; flex-direction: column; gap: 22px; padding-right: 4px; }
+@media (max-width: 900px) { aside.setup { position: static; max-height: none; overflow: visible; } }
+
+.panel h2, .cat-h h2 { font: 700 15px/1.2 var(--display); font-stretch: 85%; letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+.panel { display: flex; flex-direction: column; gap: 10px; }
+.panel-h { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+input, select, button { font: inherit; color: inherit; }
+input[type="number"], input:not([type]), select {
+  background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; min-width: 0;
+}
+input[type="number"] { width: 4.5em; font-family: var(--mono); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.member { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.member-top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.m-label { flex: 1 1 7em; font-weight: 600; }
+.m-age { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.icon-btn { margin-left: auto; border: 1px solid var(--line); background: none; border-radius: 4px; width: 30px; height: 30px; cursor: pointer; color: var(--muted); }
+.icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+.flags { display: flex; flex-wrap: wrap; gap: 6px; }
+.flags select { font-size: 13px; padding: 3px 6px; }
+.flag, .chip { display: inline-flex; cursor: pointer; }
+.flag input, .chip input { position: absolute; opacity: 0; pointer-events: none; }
+.flag span, .chip span { font-size: 12.5px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); user-select: none; }
+.flag input:checked + span, .chip input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.flag input:focus-visible + span, .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.member-meta { font: 12px var(--mono); color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.btn { border: 1px solid var(--ink); background: transparent; border-radius: 4px; padding: 7px 12px; cursor: pointer; font-weight: 600; font-size: 13.5px; }
+.btn.solid { background: var(--ink); color: var(--paper); }
+.btn:hover { border-color: var(--accent); }
+.btn.quiet { border-color: var(--line); color: var(--muted); font-weight: 500; }
+
+.seg { display: flex; border: 1px solid var(--ink); border-radius: 4px; overflow: hidden; }
+.seg button { flex: 1; border: 0; background: none; padding: 7px 0; cursor: pointer; font: 600 14px var(--mono); }
+.seg button + button { border-left: 1px solid var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13.5px; }
+.row label { display: inline-flex; gap: 6px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; font-size: 13.5px; }
+.grid2 label { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+
+/* summary */
+.summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--card); }
+@media (max-width: 640px) { .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-left: 1px solid var(--line); min-width: 0; }
+.stat:first-child { border-left: 0; }
+@media (max-width: 640px) { .stat:nth-child(3) { border-left: 0; } .stat:nth-child(n+3) { border-top: 1px solid var(--line); } }
+.stat-k { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.stat-v { font: 800 30px/1.05 var(--display); font-stretch: 80%; font-variant-numeric: tabular-nums; }
+.stat-v small { font: 500 13px var(--body); color: var(--muted); margin-left: 2px; }
+.stat-v.tiers b { font-weight: 800; }
+.stat-s { font-size: 12px; color: var(--muted); }
+.bar { display: block; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--good); transition: width .3s; }
+.bar.small { width: 70px; height: 4px; }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+
+.notes { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+.notes p { margin: 0; padding: 8px 12px; background: var(--accent-soft); border-radius: 4px; font-size: 13.5px; }
+.notes:empty { display: none; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 22px 0 6px; font-size: 13.5px; }
+.toolbar .spacer { flex: 1; }
+.toolbar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+#copy-fallback { width: 100%; min-height: 160px; font: 12px var(--mono); background: var(--card); border: 1px solid var(--line); color: var(--ink); padding: 8px; }
+
+/* checklist */
+.cat { margin-top: 26px; }
+.cat-h { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
+.cat-h h2 { font-size: 17px; flex: 1; }
+.cat-count { font: 500 13px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.items { list-style: none; margin: 0; padding: 0; }
+.item { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.item > input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--good); cursor: pointer; }
+.item-top { display: flex; gap: 6px 14px; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+.item-name { font-weight: 600; cursor: pointer; }
+.qty { font: 500 13.5px var(--mono); font-variant-numeric: tabular-nums; color: var(--accent); text-align: right; max-width: 100%; }
+.why { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; max-width: 72ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; align-items: center; font-size: 11.5px; }
+.pri { font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 3px 6px; border-radius: 3px; border: 1px solid currentColor; }
+.pri.p1 { color: var(--accent); }
+.pri.p2 { color: var(--p2); }
+.pri.p3 { color: var(--p3); }
+.basis { font-family: var(--mono); color: var(--muted); }
+.srcs { color: var(--muted); }
+.srcs a { color: var(--p2); text-decoration: none; font-family: var(--mono); margin-right: 6px; white-space: nowrap; }
+.srcs a:hover { text-decoration: underline; }
+.src-g { font-family: var(--mono); border-bottom: 1px dotted var(--muted); cursor: help; }
+.item.done .item-name, .item.done .qty { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+.why b { color: var(--ink); font-weight: 600; }
+.use { margin-top: 6px; max-width: 72ch; }
+.use summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--p2); width: fit-content; }
+.use summary:hover { text-decoration: underline; }
+.use p { margin: 6px 0 0; padding: 8px 12px; border-left: 3px solid var(--p2); background: var(--card); font-size: 13.5px; color: var(--ink); }
+.views { margin-top: 6px; max-width: 72ch; }
+.views summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); width: fit-content; }
+.views summary:hover { text-decoration: underline; }
+.views ul { margin: 6px 0 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: var(--ink); }
+.alts { margin-top: 8px; max-width: 72ch; }
+.alts summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); width: fit-content; }
+.alts summary:hover { text-decoration: underline; }
+.alt { margin-top: 6px; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 4px 4px 0; font-size: 13.5px; }
+.alt + .alt { margin-top: 8px; }
+.alt p { margin: 0 0 4px; }
+.alt p:last-child { margin-bottom: 0; }
+.alt-by { font-size: 12.5px; }
+.alt-trade { color: var(--muted); }
+.alt-trade b { color: var(--ink); }
+.rank { font: 500 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 2px; }
+.tier-tag { font: 500 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tier-why { margin: 8px 0 2px; font-size: 13.5px; color: var(--muted); max-width: 80ch; }
+.tier-sub { padding: 16px 0 6px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.tier-sub b { font: 600 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.tier-sub span { font-size: 13px; color: var(--muted); max-width: 80ch; }
+.tabs { display: flex; gap: 0; margin-top: 22px; border-bottom: 2px solid var(--ink); }
+.tabs button { border: 1px solid var(--line); border-bottom: 0; background: none; padding: 9px 16px; cursor: pointer; font: 700 14px var(--display); font-stretch: 85%; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-radius: 4px 4px 0 0; margin-right: 4px; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.order-label { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.seg.small button { padding: 5px 10px; font: 600 12.5px var(--body); }
+.guide-intro { margin: 18px 0 4px; max-width: 72ch; }
+.step { margin-top: 24px; }
+.step-h { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
+.step-h > div { flex: 1; min-width: 0; }
+.step-h h2 { font: 700 17px/1.2 var(--display); font-stretch: 85%; letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+.step-n { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--paper); font: 700 15px var(--mono); }
+.step.complete .step-n { background: var(--good); }
+.step.avoid .step-n { background: var(--ink); }
+.step-when { font: 500 12px var(--mono); color: var(--muted); }
+.step-intro { margin: 8px 0 4px; font-size: 14px; color: var(--muted); max-width: 72ch; }
+.tasks { margin: 8px 0 4px; padding-left: 20px; font-size: 14px; display: flex; flex-direction: column; gap: 4px; max-width: 72ch; }
+.see-alt { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.views li.dis::marker { color: var(--accent); }
+.dis-chip { font: 500 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 3px; padding: 2px 5px; margin-left: 4px; }
+a.ext { color: var(--p2); font-weight: 600; text-decoration: none; }
+a.ext:hover { text-decoration: underline; }
+.item.done .why, .item.done .use, .item.done .views, .item.done .alts { display: none; }
+.empty { color: var(--muted); font-size: 13.5px; }
+
+footer.foot { border-top: 1px solid var(--line); padding-block: 20px 40px; color: var(--muted); font-size: 12.5px; }
+footer.foot p { max-width: 80ch; margin: 0 0 8px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Built from the “Prepping Guide For Beginners” playlist (121 videos) · compared with 15 of the most-viewed prepping channels</div>
+    <h1>Survive.Home</h1>
+    <p class="lede">Describe who lives in your home and how long you want to be self-sufficient. Every quantity below recalculates from that: water by person and condition, food by calories, diapers by the day. Tick items off as you gather them. Your setup and checkmarks stay saved in this browser.</p>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="setup" aria-label="Household setup">
+    <section class="panel">
+      <div class="panel-h"><h2>Plan length</h2></div>
+      <div class="seg" role="group" aria-label="Plan length in days">
+        <button data-days="3">3d</button><button data-days="14">14d</button><button data-days="30">30d</button><button data-days="90">90d</button>
+      </div>
+      <div class="row">
+        <label for="days-custom">Custom days <input type="number" id="days-custom" min="1" max="365"></label>
+        <label><input type="checkbox" id="water-full"> Store water for the full plan</label>
+      </div>
+      <p class="hint">Days 1–3 use no-cook food, days 4–14 everyday pantry food, and day 15 onward long-term staples.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>Household</h2><button class="btn quiet" id="add-member">+ Add person</button></div>
+      <div id="members" style="display:flex;flex-direction:column;gap:8px"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>Local hazards</h2></div>
+      <div class="chips" id="hazards"></div>
+      <p class="hint">Turns on climate- and hazard-specific gear. Extreme heat raises water needs by 50%.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>Home, vehicles & pets</h2></div>
+      <div class="grid2">
+        <label>Floors <input type="number" id="floors" min="1" max="6"></label>
+        <label>Vehicles <input type="number" id="vehicles" min="0" max="6"></label>
+        <label><span>Natural gas</span> <input type="checkbox" id="gas"></label>
+        <label><span>Basement / sump</span> <input type="checkbox" id="basement"></label>
+        <label><span>Apartment (high floor)</span> <input type="checkbox" id="apt"></label>
+        <label>Small dogs <input type="number" id="pet-dogS" min="0" max="9"></label>
+        <label>Medium dogs <input type="number" id="pet-dogM" min="0" max="9"></label>
+        <label>Large dogs <input type="number" id="pet-dogL" min="0" max="9"></label>
+        <label>Cats <input type="number" id="pet-cat" min="0" max="9"></label>
+      </div>
+    </section>
+    <button class="btn quiet" id="reset">Reset to example</button>
+  </aside>
+
+  <main>
+    <div class="summary" id="summary"></div>
+    <div class="notes" id="notes"></div>
+    <div class="tabs" role="tablist" aria-label="View">
+      <button role="tab" data-tab="guide">Start here</button>
+      <button role="tab" data-tab="list">Full checklist</button>
+    </div>
+    <div id="guide" role="tabpanel"></div>
+    <div id="checklist" role="tabpanel">
+    <div class="toolbar">
+      <span class="order-label">Order</span>
+      <div class="seg small" role="group" aria-label="Order items by">
+        <button data-order="rank">Survival priority</button><button data-order="cat">Category</button>
+      </div>
+      <label><input type="checkbox" id="f-essentials"> Essentials only</label>
+      <label><input type="checkbox" id="f-hidedone"> Hide checked</label>
+      <label><input type="checkbox" id="f-expand"> Open all details</label>
+      <label><input type="checkbox" id="f-disagree"> Only where channels disagree</label>
+      <span class="spacer"></span>
+      <button class="btn solid" id="copy-list">Copy shopping list</button>
+    </div>
+    <textarea id="copy-fallback" hidden readonly aria-label="Shopping list text"></textarea>
+    <div id="list"></div>
+    </div>
+  </main>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Quantities follow the playlist's figures where it gives them: 1 gal of water per person per day, 14 days of water, and the 90-day staples ratios from video 24. Calorie targets use standard dietary-guideline estimates (pregnancy +340 kcal in the 2nd trimester and +450 in the 3rd). Items marked “outside playlist” fill gaps the videos don't cover, mostly pregnancy and small children, using FEMA, CDC, AAP, ACOG and Red Cross public guidance.</p>
+    <p>This is a planning aid, not medical advice. Confirm medicines, supplements and dosing with your OB and pediatrician. Some videos make price forecasts and strong health claims. Those were left out, and risky tips (livestock products for people, fish antibiotics, colloidal silver, candle heaters, open flames around a toddler) were replaced with safer options.</p>
+  </div>
+</footer>
+
+<script src="data.js" charset="utf-8"></script>
+<script src="details-1.js" charset="utf-8"></script>
+<script src="details-2.js" charset="utf-8"></script>
+<script src="details-3.js" charset="utf-8"></script>
+<script src="details-4.js" charset="utf-8"></script>
+<script src="top-channels.js" charset="utf-8"></script>
+<script src="alternatives.js" charset="utf-8"></script>
+<script src="priority.js" charset="utf-8"></script>
+<script src="guide.js" charset="utf-8"></script>
+<script src="app.js" charset="utf-8"></script>
+<script>
+// Install the offline worker when served as a website (skipped inside sandboxed previews).
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* no offline mode here */ });
+  });
+}
+</script>
+</body>
+</html>
