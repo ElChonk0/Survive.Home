@@ -8,9 +8,10 @@ const DEFAULT_HH = {
   days: 14,
   waterFull: false,
   members: [
-    { label: "Dad", age: 35, sex: "M" },
-    { label: "Mom", age: 35, sex: "F", pregnant: true, trimester: 2 },
-    { label: "Kiddo", age: 3, sex: "F", diapers: "night" },
+    { label: "Dad", age: 40, sex: "M" },
+    { label: "Mom", age: 35, sex: "F" },
+    { label: "Kid", age: 10 },
+    { label: "Kid", age: 5 },
   ],
   hz: { cold: false, heat: false, hurricane: false, quake: false, fire: false, flood: false, nuclear: false },
   home: { floors: 2, gas: true, basement: false, apt: false },
