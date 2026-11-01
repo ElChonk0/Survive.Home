@@ -37,24 +37,48 @@ let view = Object.assign({ essentials: false, hideDone: false, tab: "guide", ord
 
 /* ───────── context ───────── */
 
-function kcalFor(m) {
+const hasSize = (m) => m.heightIn > 0 && m.weightLb > 0;
+
+function kcalByAge(m) {
   const a = m.age;
-  if (a < 1) return 0; // formula / breast milk, counted separately
   if (a < 4) return 1000;
   if (a < 9) return 1400;
   if (a < 13) return 1800;
+  if (a < 18) return m.sex === "M" ? 2600 : 2000;
+  if (a < 65) return m.sex === "M" ? 2400 : 2000;
+  return m.sex === "M" ? 2200 : 1800;
+}
+// With height and weight: IOM energy equations for children (ages 3–18 "low active", averaged across
+// sexes under 12 since sex isn't asked), and Mifflin–St Jeor × 1.5 for adults, a light-to-moderate work
+// level (hauling water, cleanup) rather than a desk day.
+function kcalBySize(m) {
+  const a = m.age, kg = m.weightLb * 0.4536, mt = m.heightIn * 0.0254;
   let k;
-  if (a < 18) k = m.sex === "M" ? 2600 : 2000;
-  else if (a < 65) k = m.sex === "M" ? 2400 : 2000;
-  else k = m.sex === "M" ? 2200 : 1800;
+  if (a < 3) k = 89 * kg - 80;
+  else if (a < 18) {
+    const extra = a < 9 ? 20 : 25;
+    const boy = 88.5 - 61.9 * a + 1.13 * (26.7 * kg + 903 * mt) + extra;
+    const girl = 135.3 - 30.8 * a + 1.16 * (10 * kg + 934 * mt) + extra;
+    k = a < 12 ? (boy + girl) / 2 : m.sex === "M" ? boy : girl;
+  } else {
+    k = 1.5 * (10 * kg + 625 * mt - 5 * a + (m.sex === "M" ? 5 : -161));
+  }
+  return Math.max(800, Math.round(k / 50) * 50);
+}
+function kcalFor(m) {
+  if (m.age < 1) return 0; // formula / breast milk, counted separately
+  let k = hasSize(m) ? kcalBySize(m) : kcalByAge(m);
   if (m.pregnant) k += [0, 340, 450][(m.trimester || 2) - 1];
   if (m.breastfeeding) k += 450;
   return k;
 }
+// 1 gal per person per day is FEMA's floor: about half for drinking, half for cooking and washing.
+// With a weight, the drinking half follows body size (½ oz per lb), so larger adults store more.
 function waterFor(m) {
-  if (m.breastfeeding) return 1.5;
-  if (m.pregnant) return 1.25;
-  return 1;
+  let w = m.weightLb > 0 ? Math.max(1, 0.5 + (m.weightLb * 0.5) / 128) : 1;
+  if (m.pregnant) w += 0.25;
+  if (m.breastfeeding) w += 0.5;
+  return Math.round(w * 20) / 20;
 }
 
 function buildContext(h) {
@@ -153,6 +177,11 @@ function memberRow(m, i) {
       ${m.age >= 12 ? `<select id="m${i}-sex" data-i="${i}" data-k="sex" aria-label="Sex"><option value="M" ${m.sex === "M" ? "selected" : ""}>Male</option><option value="F" ${m.sex === "F" ? "selected" : ""}>Female</option></select>` : ""}
       <button class="icon-btn" data-remove="${i}" aria-label="Remove ${esc(m.label)}">×</button>
     </div>
+    <div class="member-size">
+      <label class="m-age">Height <input type="number" id="m${i}-ft" min="0" max="8" step="1" data-i="${i}" data-k="ft" value="${m.heightIn ? Math.floor(m.heightIn / 12) : ""}" aria-label="Height, feet"> ft
+        <input type="number" id="m${i}-in" min="0" max="11" step="1" data-i="${i}" data-k="in" value="${m.heightIn ? m.heightIn % 12 : ""}" aria-label="Height, inches"> in</label>
+      <label class="m-age">Weight <input type="number" id="m${i}-lb" min="0" max="600" step="1" data-i="${i}" data-k="lb" value="${m.weightLb || ""}"> lb</label>
+    </div>
     <div class="flags">
       ${canPreg ? flag("pregnant", "Pregnant") : ""}
       ${canPreg && m.pregnant ? `<select id="m${i}-tri" data-i="${i}" data-k="trimester" aria-label="Trimester">${[1, 2, 3].map((t) => `<option value="${t}" ${(m.trimester || 2) === t ? "selected" : ""}>Trimester ${t}</option>`).join("")}</select>` : ""}
@@ -168,6 +197,7 @@ function describe(m) {
   const parts = [];
   parts.push(k ? `${k.toLocaleString()} kcal/day` : "formula / breast milk");
   parts.push(`${waterFor(m)} gal water/day`);
+  if (m.age >= 1) parts.push(hasSize(m) ? "from height & weight" : "average for age");
   return parts.join(" · ");
 }
 
@@ -382,6 +412,15 @@ document.addEventListener("input", (e) => {
       const band = (x) => (x < 4 ? 0 : x < 12 ? 1 : x <= 55 ? 2 : 3);
       commit(false);
       if (band(before) !== band(a)) { renderHousehold(); document.getElementById(`m${t.dataset.i}-age`)?.focus(); }
+    } else if (k === "ft" || k === "in" || k === "lb") {
+      // Blank fields fall back to the age averages.
+      const row = t.closest(".member");
+      const num = (key) => Math.max(0, +row.querySelector(`[data-k="${key}"]`).value || 0);
+      const h = num("ft") * 12 + num("in");
+      if (h > 0) m.heightIn = h; else delete m.heightIn;
+      if (num("lb") > 0) m.weightLb = num("lb"); else delete m.weightLb;
+      row.querySelector(".member-meta").textContent = describe(m);
+      commit(false);
     } else {
       m[k] = k === "trimester" ? +t.value : t.value;
       if (k === "sex" && t.value === "M") { m.pregnant = false; m.breastfeeding = false; }

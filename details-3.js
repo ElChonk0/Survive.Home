@@ -31,7 +31,7 @@ Object.assign(DETAILS, {
     use: "Set it in direct sun, angled toward the sun, and move it as the sun moves. Charge power banks during the day and use them at night. Expect much less output on cloudy winter days. Store it dry and folded.",
   },
   "l-station": {
-    why: "A portable power station runs lights, chargers, a small fridge or medical devices quietly and indoors, with no fumes. Charged from a generator a couple of hours a day or from solar, it covers the hours in between. It can keep the toddler's milk or insulin cold. It's much safer than running a generator all night.",
+    why: "A portable power station runs lights, chargers, a small fridge or medical devices quietly and indoors, with no fumes. Charged from a generator a couple of hours a day or from solar, it covers the hours in between. It can keep children's milk or insulin cold. It's much safer than running a generator all night.",
     use: "Keep it charged to about 80% and top it up every few months. In an outage, prioritize medical devices, fridge cycles, lights and phones. Recharge it from the generator or solar during the day. Never run heaters or cooking appliances from it; they drain it fast.",
   },
   "l-gen": {
@@ -78,14 +78,14 @@ Object.assign(DETAILS, {
   },
   "t-heater": {
     why: "A gas furnace needs electricity to run, so it fails in an outage even when gas still flows. An indoor-rated propane heater (such as a Mr. Heater Buddy type) has low-oxygen and tip-over shut-offs. It still produces carbon monoxide and burns oxygen, so ventilation and a CO detector are required. Insulating first means less fuel and less risk.",
-    use: "Use it only in the warm room, with a window cracked about an inch, a working CO detector, and 3 ft of clearance from bedding and curtains. Run it to warm the room before sleep, then turn it off; don't sleep with it running unless the manual allows and the detector is on. Put a gate around it for the toddler. Store fuel cylinders outside.",
+    use: "Use it only in the warm room, with a window cracked about an inch, a working CO detector, and 3 ft of clearance from bedding and curtains. Run it to warm the room before sleep, then turn it off; don't sleep with it running unless the manual allows and the detector is on. Put a gate around it if there are small children. Store fuel cylinders outside.",
   },
   "t-warmers": {
     why: "Cold hands lose grip and dexterity fast, making simple tasks like first aid or using tools hard. Disposable warmers give 8+ hours of heat. Refillable catalytic warmers run 12–24 hours on lighter fluid and can be reused. They're a backup to proper clothing, not a heater.",
-    use: "Activate them and put them in gloves, pockets, or the foot of a sleeping bag (wrapped, never directly on skin). Use them during outdoor tasks, in a stuck car, or at night. Keep them away from the toddler's skin and mouth. Don't use them in a closed space without air for catalytic types.",
+    use: "Activate them and put them in gloves, pockets, or the foot of a sleeping bag (wrapped, never directly on skin). Use them during outdoor tasks, in a stuck car, or at night. Keep them away from small children's skin and mouths. Don't use them in a closed space without air for catalytic types.",
   },
   "t-cool": {
-    why: "Without air conditioning, heat becomes dangerous within hours, and the pregnant member and the toddler are the most vulnerable. Evaporative cooling (spray, wet towels, fans) works with no grid power. Cooling the wrists and neck lowers body temperature quickly. Battery fans move air so sweat can evaporate.",
+    why: "Without air conditioning, heat becomes dangerous within hours, and pregnant women, small children and older adults are the most vulnerable. Evaporative cooling (spray, wet towels, fans) works with no grid power. Cooling the wrists and neck lowers body temperature quickly. Battery fans move air so sweat can evaporate.",
     use: "Close windows and blinds when outside air is hotter than inside, and open them at night. Mist skin and run fans across it, and put cool wet cloths on wrists and neck every 20 minutes. Move to the coolest room, often a basement or interior room. Seek help for confusion, fainting, or a hot dry body.",
   },
   "t-reflect": {
@@ -114,12 +114,12 @@ Object.assign(DETAILS, {
   },
   "t-hotwater": {
     why: "Hot water bottles give safe, silent heat for hours with no fumes and no fire risk. Heat stored in water releases slowly through the night. They warm the feet and core, where it matters most. They're reusable and cheap.",
-    use: "Fill with hot (not boiling) water from the stove, cap tightly, and wrap in a towel. Put it at the feet or against the core inside the sleeping bag. Eat a solid meal before sleep and add layers before getting cold. For the toddler, check the wrapped bottle isn't too hot and keep it away from their face.",
+    use: "Fill with hot (not boiling) water from the stove, cap tightly, and wrap in a towel. Put it at the feet or against the core inside the sleeping bag. Eat a solid meal before sleep and add layers before getting cold. For small children, check the wrapped bottle isn't too hot and keep it away from their face.",
   },
 
   /* ───────── GO BAGS & CLOTHING ───────── */
   "b-bag": {
-    why: "Staying home is the default, but fire, flood, structural damage or an evacuation order can give you only minutes. A packed bag by the door means you leave in seconds instead of losing 4–7 minutes packing. It's built for moving: 3 days of light food, water and treatment, shelter and medical basics, not camping gear. Heavy bags get abandoned, so the weight stays well under a third of body weight, and much less for a pregnant member.",
+    why: "Staying home is the default, but fire, flood, structural damage or an evacuation order can give you only minutes. A packed bag by the door means you leave in seconds instead of losing 4–7 minutes packing. It's built for moving: 3 days of light food, water and treatment, shelter and medical basics, not camping gear. Heavy bags get abandoned, so the weight stays well under a third of body weight, and much less in pregnancy.",
     use: "Keep each bag packed at the door or in the car. Walk around the block with it loaded once to check fit and weight. Grab it when a leave trigger happens. Check and refresh the contents every 6 months (food, water, clothes size, medicines).",
   },
   "b-shoes": {

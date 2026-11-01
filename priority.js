@@ -26,7 +26,7 @@ const TIERS = [
   },
   {
     id: 5, name: "Weeks: food & a way to cook it",
-    why: "People can survive weeks without food, but strength, judgment, pregnancy and a toddler's mood fall apart within days. No-cook food comes first, then a way to cook, then deep staples.",
+    why: "People can survive weeks without food, but strength, judgment, pregnancy and children's moods fall apart within days. No-cook food comes first, then a way to cook, then deep staples.",
     ids: ["k-opener", "f-pb", "f-cprot", "f-rte", "f-crack", "f-nuts", "f-fruitveg", "c-food", "b-food", "k-stove", "k-fuel", "k-fire", "f-oil", "pt-food", "f-rice-p", "f-pasta", "f-oats-p", "f-pb-p", "f-beans", "f-rice", "f-oats", "f-flour", "f-salt", "f-sugar", "f-milk", "f-vit", "f-flavor", "f-potato", "f-seal", "p-food", "k-therm", "k-thermal", "k-plates", "a-storage", "a-fifo", "a-rotate", "a-audit", "f-comfort", "k-alt", "k-dutch", "x-fridge", "f-de", "k-mill", "k-canner"],
   },
   {

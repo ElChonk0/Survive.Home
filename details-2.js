@@ -12,11 +12,11 @@ Object.assign(DETAILS, {
   },
   "m-otc": {
     why: (c) => "Pharmacies close or empty within the first days of a big disruption, and everyday problems like fever, pain, allergies and diarrhea don't stop. Diarrhea in particular can turn into dangerous dehydration. A 7-day supply of what your household normally uses removes the need to go out. " + (c.preg.length ? "Pregnancy limits the options: acetaminophen is usually the pain and fever choice, and ibuprofen, naproxen and aspirin are generally avoided unless the OB says otherwise." : "Buy the plain, single-ingredient versions so you know exactly what you're taking."),
-    use: (c) => "Keep them in the first aid bin with a written list of each person's normal doses. Follow label doses exactly and write on the box when each dose was given. Use an antidiarrheal only for adults and pair it with oral rehydration salts. " + (c.preg.length ? "Check every medicine, including antacids and sleep aids, with the OB before the pregnant member takes it." : "Check expiry dates when you rotate the kit."),
+    use: (c) => "Keep them in the first aid bin with a written list of each person's normal doses. Follow label doses exactly and write on the box when each dose was given. Use an antidiarrheal only for adults and pair it with oral rehydration salts. " + (c.preg.length ? "Check every medicine, including antacids and sleep aids, with the OB before anyone pregnant takes it." : "Check expiry dates when you rotate the kit."),
   },
   "m-asp": {
     why: "Chewing one regular 325 mg uncoated aspirin at the first sign of a heart attack is standard emergency advice for adults, and it can save heart muscle while help is on the way. Coated aspirin acts too slowly and combination pain relievers can be harmful. Aspirin can cause Reye's syndrome in children. In pregnancy it's only taken when the OB prescribes it.",
-    use: "For an adult with chest pain or pressure, pain spreading to the arm, jaw or back, shortness of breath or cold sweat: call 911 first, then have them chew (not swallow whole) one tablet, unless they're allergic or a doctor has told them not to. Never give it to the toddler. Keep it in the locked medicine bin. Replace it when it smells of vinegar.",
+    use: "For an adult with chest pain or pressure, pain spreading to the arm, jaw or back, shortness of breath or cold sweat: call 911 first, then have them chew (not swallow whole) one tablet, unless they're allergic or a doctor has told them not to. Never give it to children. Keep it in the locked medicine bin. Replace it when it smells of vinegar.",
   },
   "m-rx": {
     why: "Pharmacies can't fill prescriptions without power, computers and payment systems, and in recent cyber attacks and hurricanes that lasted days to weeks. Missing blood pressure, seizure, thyroid or blood-thinning medicine for even 2–3 days can cause a crisis. Unopened insulin lasts about 28 days unrefrigerated. A 90-day buffer is the playlist's recommendation.",
@@ -24,11 +24,11 @@ Object.assign(DETAILS, {
   },
   "m-ors": {
     why: "Dehydration from heat, diarrhea or vomiting is the most common non-injury emergency after a disaster, and it hits small children fastest. Plain water doesn't restore the salts the body loses. The WHO's oral rehydration formula has saved more lives in disasters than almost any other treatment. Children need the pediatric version, which has the right balance.",
-    use: "Start ORS at the first sign of diarrhea, vomiting, heavy sweating, headache or dizziness. Mix each packet with exactly the amount of clean water on the label. For the toddler, give small sips every few minutes rather than big drinks. Seek medical help for a child with no wet diaper or urine for 8 hours, very sleepy behavior, or no tears.",
+    use: "Start ORS at the first sign of diarrhea, vomiting, heavy sweating, headache or dizziness. Mix each packet with exactly the amount of clean water on the label. For young children, give small sips every few minutes rather than big drinks. Seek medical help for a child with no wet diaper or urine for 8 hours, very sleepy behavior, or no tears.",
   },
   "m-masks": {
-    why: "Wildfire smoke, earthquake dust, flood mold and rodent-dropping cleanup all put harmful particles in the air. Paper dust masks don't filter fine particles; N95s filter 95% of them if they seal well. They're also needed for hantavirus-safe cleanup. N95s aren't made to fit small children, so the toddler is protected by staying indoors with windows shut.",
-    use: "Wear one when there's smoke, during demolition or cleanup of dust, mold or rodent mess, and when caring for someone sick. Fit it snugly over nose and chin, press the nose clip, and check for air leaks; beards break the seal. Replace it when breathing gets hard or it's damaged or dirty. For the toddler, keep them in a sealed room with a fan-filter if you have one.",
+    why: "Wildfire smoke, earthquake dust, flood mold and rodent-dropping cleanup all put harmful particles in the air. Paper dust masks don't filter fine particles; N95s filter 95% of them if they seal well. They're also needed for hantavirus-safe cleanup. N95s aren't made to fit small children, so young children are protected by staying indoors with windows shut.",
+    use: "Wear one when there's smoke, during demolition or cleanup of dust, mold or rodent mess, and when caring for someone sick. Fit it snugly over nose and chin, press the nose clip, and check for air leaks; beards break the seal. Replace it when breathing gets hard or it's damaged or dirty. For young children, keep them in a sealed room with a fan-filter if you have one.",
   },
   "m-glasses": {
     why: "Glasses are easily lost or broken in an evacuation, and without them you can't read medicine labels, maps or drive safely. Replacements may not be available for weeks. Contact lens wearers need solution and a case, and lenses can't be cleaned safely without them. A spare pair is cheap insurance.",
@@ -115,8 +115,8 @@ Object.assign(DETAILS, {
     use: "Let the child help choose what goes in the kit, so it's familiar. Bring it out during waits, in shelters, in the car, or when the power goes out. Keep the treat snack for hard moments. Update it as their interests change.",
   },
   "c-glow": {
-    why: "Darkness frightens young children, and candles near a toddler are a fire and burn risk. Glow sticks give soft light for 8–12 hours with no flame or heat. They also help you see where the child is at night. They're cheap and last years.",
-    use: "Crack one at bedtime as a night-light, or clip one to the child's clothing in the dark or in crowds. Supervise the toddler, since the liquid inside is an irritant if chewed. Keep a pack in the go bag. Toss them after use.",
+    why: "Darkness frightens young children, and candles near small children are a fire and burn risk. Glow sticks give soft light for 8–12 hours with no flame or heat. They also help you see where the child is at night. They're cheap and last years.",
+    use: "Crack one at bedtime as a night-light, or clip one to the child's clothing in the dark or in crowds. Supervise small children, since the liquid inside is an irritant if chewed. Keep a pack in the go bag. Toss them after use.",
   },
   "c-proof": {
     why: "Outages put dangerous things at toddler height: medicine, bleach, fuel, lighters and candles are left out as adults improvise. Poisoning and burns spike after disasters. A locked bin keeps everything in one safe place. Stoves, heaters and generators also need a barrier.",
@@ -146,7 +146,7 @@ Object.assign(DETAILS, {
   },
   "s-wipes": {
     why: "Clean hands are the main defense against stomach illness when water is short. Sanitizer works only at 60% alcohol or more, so the label matters. Wipes clean bodies and surfaces with no water. Each person needs their own bottle so it's always on hand.",
-    use: "Sanitize after the toilet, before eating or preparing food, and after diaper changes. Rub until dry. Use wipes for a quick daily wash-down. Keep sanitizer away from the toddler's mouth and from open flames.",
+    use: "Sanitize after the toilet, before eating or preparing food, and after diaper changes. Rub until dry. Use wipes for a quick daily wash-down. Keep sanitizer away from children's mouths and from open flames.",
   },
   "s-hyg": {
     why: (c) => "Washing and brushing prevent infections, skin problems and tooth pain when doctors and dentists are hard to reach. Normal routines also support morale. Bar soap stores longer than liquid and also washes clothes and wounds. Each person needs their own toothbrush.",

@@ -1,6 +1,6 @@
 // Offline support: every app file is stored on first visit so the checklist opens with no signal.
 // Bump VERSION whenever any file below changes so phones pick up the new copy.
-const VERSION = "survive-home-v2";
+const VERSION = "survive-home-v3";
 const APP_FILES = [
   "./",
   "index.html",

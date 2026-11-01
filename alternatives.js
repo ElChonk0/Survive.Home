@@ -185,7 +185,7 @@ const ALTS = {
       by: ["ca-start"],
       claim: "Pool shock should be your main long-term water treatment, not an upgrade.",
       alt: "Make pool shock the core of water treatment and skip stockpiling bleach. Mix stock solution only as needed (see the bleach item for the recipe).",
-      trade: "Choose this if you plan for more than a year of storage or have limited space. It stays an upgrade here because a toddler in the house makes a strong oxidizer riskier to keep.",
+      trade: "Choose this if you plan for more than a year of storage or have limited space. It stays an upgrade here because small children in the house make a strong oxidizer riskier to keep.",
     },
   ],
   "w-filter": [
@@ -217,7 +217,7 @@ const ALTS = {
       by: ["diy-1000", "lds-forgot"],
       claim: "A butane stove is the first stove to buy, and it's safe to use indoors.",
       alt: "Buy a single-burner butane stove (about $25) and at least 10 canisters. Cook in the kitchen with a window cracked and a battery CO alarm nearby, for short sessions only (boiling water, heating cans).",
-      trade: "Only use a stove the maker labels for indoor use, never a propane camp stove, and keep it off when no one is watching. CO is the danger: if the alarm sounds or anyone gets a headache or feels dizzy, turn it off and get fresh air. With a pregnant mom and a toddler, outdoor cooking is safer whenever the weather allows.",
+      trade: "Only use a stove the maker labels for indoor use, never a propane camp stove, and keep it off when no one is watching. CO is the danger: if the alarm sounds or anyone gets a headache or feels dizzy, turn it off and get fresh air. With small children or anyone pregnant, outdoor cooking is safer whenever the weather allows.",
     },
   ],
   "m-trauma": [
@@ -241,7 +241,7 @@ const ALTS = {
       by: ["ca-start", "ws-10"],
       claim: "Stockpile candles and fuel lanterns: they're cheap, last for decades, and give a little heat.",
       alt: "Keep several cases of long-burning emergency candles, candle lanterns and a kerosene lantern with spare wicks and fuel, alongside flashlights.",
-      trade: "Candles are the leading cause of home fires during outages. With a toddler, use flame light only in a sturdy lantern, out of reach, and never while asleep. Battery and rechargeable lights stay first here.",
+      trade: "Candles are the leading cause of home fires during outages. With small children, use flame light only in a sturdy lantern, out of reach, and never while asleep. Battery and rechargeable lights stay first here.",
     },
   ],
   "l-batt": [
@@ -273,7 +273,7 @@ const ALTS = {
       by: ["pp-warm", "sd-101"],
       claim: "Tea-light can heaters, indoor-rated canned heat, or a kerosene heater are reasonable ways to warm a room.",
       alt: "Keep indoor-rated canned heat (about 6 hours per can) in a clay-pot heater, or a kerosene heater with K-1 fuel, for one warm room.",
-      trade: "Any flame indoors needs a cracked window and a working CO alarm. Tea-light heaters add very little heat for the fire risk, and kerosene heaters produce CO and fumes. With a pregnant mom and a toddler, an indoor-rated propane heater plus a warm room and sleeping bags is the safer setup.",
+      trade: "Any flame indoors needs a cracked window and a working CO alarm. Tea-light heaters add very little heat for the fire risk, and kerosene heaters produce CO and fumes. With small children or anyone pregnant, an indoor-rated propane heater plus a warm room and sleeping bags is the safer setup.",
     },
   ],
   "t-bag": [
@@ -289,7 +289,7 @@ const ALTS = {
       by: ["sd-101", "mp-2wk", "mp-pri", "diy-1000"],
       claim: "A firearm is a core prep. Security is what lets you keep everything else, and some rank it above medical.",
       alt: "Get a reliable handgun (for example a used police trade-in) or a pump shotgun for home defense, a gun safe, and training. Where firearms aren't legal or wanted, use pepper spray. Add motion lights and a driveway alarm.",
-      trade: "This checklist doesn't cover firearms. With a toddler, any gun must be stored locked and unloaded in a quick-access safe with the ammunition locked separately. Budget for training and range time, which DIY Prepper TV notes can cost as much as the gun. Check local laws.",
+      trade: "This checklist doesn't cover firearms. With children in the house, any gun must be stored locked and unloaded in a quick-access safe with the ammunition locked separately. Budget for training and range time, which DIY Prepper TV notes can cost as much as the gun. Check local laws.",
     },
   ],
   "a-opsec": [

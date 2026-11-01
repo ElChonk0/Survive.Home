@@ -9,7 +9,7 @@ const GUIDE = {
     "Buying tactical gear or a fancy bug-out bag before you have water and a toilet plan. Most emergencies are spent at home.",
     "Freeze-dried 'month supply' buckets before a pantry of food you already eat: they list servings, not calories, and some are very salty.",
     "A generator before CO detectors. Generators and indoor heaters kill families every winter.",
-    "Storing food your family won't eat. A sudden diet change is hard on a toddler and in pregnancy.",
+    "Storing food your family won't eat. A sudden diet change is hard on young children and in pregnancy.",
     "Doing it all at once. A little every week (one extra can, one small task) beats one big panic purchase.",
     "Telling everyone what you've stored.",
   ],

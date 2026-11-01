@@ -91,6 +91,8 @@ input[type="number"] { width: 4.5em; font-family: var(--mono); }
 .flag span, .chip span { font-size: 12.5px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); user-select: none; }
 .flag input:checked + span, .chip input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .flag input:focus-visible + span, .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.member-size { display: flex; gap: 14px; flex-wrap: wrap; }
+.member-size input[type="number"] { width: 3.6em; }
 .member-meta { font: 12px var(--mono); color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
@@ -290,8 +292,8 @@ footer.foot p { max-width: 80ch; margin: 0 0 8px; }
 
 <footer class="foot">
   <div class="wrap">
-    <p>Quantities follow the playlist's figures where it gives them: 1 gal of water per person per day, 14 days of water, and the 90-day staples ratios from video 24. Calorie targets use standard dietary-guideline estimates (pregnancy +340 kcal in the 2nd trimester and +450 in the 3rd). Items marked “outside playlist” fill gaps the videos don't cover, mostly pregnancy and small children, using FEMA, CDC, AAP, ACOG and Red Cross public guidance.</p>
-    <p>This is a planning aid, not medical advice. Confirm medicines, supplements and dosing with your OB and pediatrician. Some videos make price forecasts and strong health claims. Those were left out, and risky tips (livestock products for people, fish antibiotics, colloidal silver, candle heaters, open flames around a toddler) were replaced with safer options.</p>
+    <p>Quantities follow the playlist's figures where it gives them: 1 gal of water per person per day, 14 days of water, and the 90-day staples ratios from video 24. Calorie targets use standard dietary-guideline estimates by age, or, when you enter height and weight, the Institute of Medicine energy equations for children and Mifflin–St Jeor × 1.5 for adults (a light-to-moderate work day). Drinking water scales with weight at ½ oz per lb, never below 1 gal per person (pregnancy +340 kcal in the 2nd trimester and +450 in the 3rd). Items marked “outside playlist” fill gaps the videos don't cover, mostly pregnancy and small children, using FEMA, CDC, AAP, ACOG and Red Cross public guidance.</p>
+    <p>This is a planning aid, not medical advice. Confirm medicines, supplements and dosing with your OB and pediatrician. Some videos make price forecasts and strong health claims. Those were left out, and risky tips (livestock products for people, fish antibiotics, colloidal silver, candle heaters, open flames around small children) were replaced with safer options.</p>
   </div>
 </footer>
 

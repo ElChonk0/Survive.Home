@@ -24,7 +24,7 @@ Object.assign(DETAILS, {
   },
   "m-abx": {
     why: "When medical care is cut off for weeks, infected wounds become one of the main dangers. Antibiotics are prescription medicines for good reason: the wrong drug or dose can cause harm, and some are unsafe in pregnancy or for small children. A doctor can decide what, if anything, makes sense for your family. The fish antibiotics and colloidal silver promoted in some videos are not safe substitutes.",
-    use: "Bring it up at your next checkup, explain it's for an emergency kit, and list allergies, the pregnancy and the child's age and weight. If prescribed, store it as directed and only use it according to the doctor's instructions. Keep wounds clean and covered as the first line of defense. Get professional care as soon as it's available.",
+    use: "Bring it up at your next checkup, explain it's for an emergency kit, and list allergies, any pregnancy, and children's ages and weights. If prescribed, store it as directed and only use it according to the doctor's instructions. Keep wounds clean and covered as the first line of defense. Get professional care as soon as it's available.",
   },
   "c-safe": {
     why: "If both parents are hurt, stuck elsewhere or separated in a disaster, someone needs to take charge of the child right away. A named person the child already knows avoids confusion and fear. Schools and shelters can release a child to a designated adult. The playlist calls this the single most important step for parents.",
@@ -73,8 +73,8 @@ Object.assign(DETAILS, {
     use: "Cut plywood to fit each window, label it, and pre-drill mounting holes. Put it up when a hurricane watch is issued. Store it flat in the garage between seasons. Take it down after the storm to let light and air in.",
   },
   "h-fire": {
-    why: "Wildfire can move faster than people can run, and by the time you see it nearby, you have minutes. The families who survived the Camp Fire by car had their essentials already loaded and left immediately. Clearing brush near the house slows fire. Smoke is dangerous, especially for a pregnant woman and a toddler.",
-    use: "In fire season, keep go bags and documents in the car and the tank at least half full. Leave when officials say or when fire is visible within half a mile, without stopping to pack. Close all windows and doors behind you. Wear N95s in smoke and keep the toddler indoors with windows shut.",
+    why: "Wildfire can move faster than people can run, and by the time you see it nearby, you have minutes. The families who survived the Camp Fire by car had their essentials already loaded and left immediately. Clearing brush near the house slows fire. Smoke is dangerous, especially for pregnant women, small children and older adults.",
+    use: "In fire season, keep go bags and documents in the car and the tank at least half full. Leave when officials say or when fire is visible within half a mile, without stopping to pack. Close all windows and doors behind you. Wear N95s in smoke and keep small children indoors with windows shut.",
   },
   "h-rodent": {
     why: "Mice and rats chew through bags and cardboard, ruin stored food, and their droppings can carry hantavirus, which is fatal in about a third of cases. Metal cans with tight lids keep them out completely. Rodent problems grow when trash service stops. Pet food attracts them too.",
@@ -98,7 +98,7 @@ Object.assign(DETAILS, {
   },
   "h-sew": {
     why: "In a long emergency you can't easily replace clothes, and torn or wet clothing makes people cold and causes skin infections. A small sewing kit fixes clothes, tarps and bags. Hand laundry with a bucket and a plunger-style washer keeps clothes clean when the machine is out. A wringer speeds drying from a day to a few hours.",
-    use: "Patch tears and replace buttons as soon as they happen. To wash, fill a bucket with water and a little powder detergent, plunge the clothes for a few minutes, rinse, and wring them out. Hang them on a line indoors or in the sun. Prioritize socks, underwear and the toddler's clothes.",
+    use: "Patch tears and replace buttons as soon as they happen. To wash, fill a bucket with water and a little powder detergent, plunge the clothes for a few minutes, rinse, and wring them out. Hang them on a line indoors or in the sun. Prioritize socks, underwear and children's clothes.",
   },
   "h-seeds": {
     why: "If a crisis lasts months, stored food eventually runs out. Open-pollinated (heirloom) seeds grow plants whose seeds you can save and replant every year, unlike hybrids. A small garden adds fresh vegetables and vitamin C to a stored-food diet. Seeds keep several years stored cool and dry.",
@@ -111,7 +111,7 @@ Object.assign(DETAILS, {
 
   /* ───────── VEHICLES ───────── */
   "v-kit": {
-    why: (c) => "Many emergencies start or end in a car: stuck in traffic, on an icy road, or evacuating. Cars cool to outside temperature within an hour without the engine, and heat up to dangerous levels in the sun. A kit turns hours of waiting into an inconvenience instead of a crisis. The child and the pregnant member are the most vulnerable in a stranded car." + (c.hz.cold ? " Winter storms regularly strand drivers for many hours." : ""),
+    why: (c) => "Many emergencies start or end in a car: stuck in traffic, on an icy road, or evacuating. Cars cool to outside temperature within an hour without the engine, and heat up to dangerous levels in the sun. A kit turns hours of waiting into an inconvenience instead of a crisis. Children, pregnant women and older adults are the most vulnerable in a stranded car." + (c.hz.cold ? " Winter storms regularly strand drivers for many hours." : ""),
     use: (c) => "Keep it in the trunk year-round and refresh it each season. If stranded, stay with the car, put on the hazard lights and stay visible." + (c.hz.cold ? " In cold, run the engine about 10 minutes an hour with the tailpipe cleared of snow and a window cracked, and bundle up with blankets in between." : "") + " Sip water and eat small snacks regularly. Call for help with the power bank keeping the phone charged.",
   },
   "v-jump": {
@@ -200,7 +200,7 @@ Object.assign(DETAILS, {
   },
   "a-codes": {
     why: "In chaos, children can't follow long instructions, but a single drilled word works almost instantly. A 'come to me now' word and a 'freeze, get low, be quiet' word give you control in crowds and danger. Kids with a small job are less frightened and easier to move. Children under 5 should be carried rather than run.",
-    use: "Choose two unusual words and practice them as a game once a month. Give the child a job (carry their small bag, hold your hand). In an emergency, speak low and calm, use the words, and carry the toddler. Teach them the rally point and to stay put if lost.",
+    use: "Choose two unusual words and practice them as a game once a month. Give the child a job (carry their small bag, hold your hand). In an emergency, speak low and calm, use the words, and carry small children. Teach them the rally point and to stay put if lost.",
   },
   "a-storage": {
     why: "Heat is the biggest shortener of shelf life: every 18°F hotter roughly halves it, and garages often top 90°F in summer. Damaged cans can carry botulism, which can't be seen or smelled. Rancid oils and green potatoes are mildly toxic. Inspection prevents poisoning when you're already stressed and without medical help.",
@@ -220,6 +220,6 @@ Object.assign(DETAILS, {
   },
   "a-fire": {
     why: "Most people build fires that smoke a lot and burn wood quickly. The top-down method burns cleaner and longer, so you need far less wood and attention. Smoke means wasted fuel. Clean-burning fires still make carbon monoxide, so they're for outdoors only.",
-    use: "Lay the largest dry logs at the bottom, smaller ones on top, then kindling and tinder at the very top, and light it from the top. Let it burn down on its own. Use only dry wood. Cook over the coals, and keep it outdoors and away from the toddler.",
+    use: "Lay the largest dry logs at the bottom, smaller ones on top, then kindling and tinder at the very top, and light it from the top. Let it burn down on its own. Use only dry wood. Cook over the coals, and keep it outdoors and away from children.",
   },
 });

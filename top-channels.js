@@ -74,7 +74,7 @@ Object.assign(DETAILS, {
     use: "Install Kiwix on a computer and phone, download the English Wikipedia file (the 'mini' version is about 13 GB, the full one about 94 GB), plus iFixit and WikiHow. Copy them to a thumb drive and an old phone. Store the phone in the Faraday tin with a charging cable. Refresh the files every year or two.",
   },
   "x-fridge": {
-    why: "A full-size fridge uses 3–4 kWh a day, too much for most backup setups, and running it from a generator a few hours a day lets the temperature swing into the danger zone. A small chest freezer and mini fridge together use about 850 Wh a day and can run nonstop on two batteries and a few solar panels. That keeps insulin, the toddler's milk and frozen meat safe through a long outage. It also earns its keep every day as overflow storage.",
+    why: "A full-size fridge uses 3–4 kWh a day, too much for most backup setups, and running it from a generator a few hours a day lets the temperature swing into the danger zone. A small chest freezer and mini fridge together use about 850 Wh a day and can run nonstop on two batteries and a few solar panels. That keeps insulin, children's milk and frozen meat safe through a long outage. It also earns its keep every day as overflow storage.",
     use: "Run them daily as an overflow fridge and meat freezer, plugged into the battery/inverter system that's charged by solar. In an outage, move the most important items (medicine, milk, meat) into them first. Keep the freezer full (frozen water bottles fill gaps) so it holds temperature. Check the battery charge each evening.",
   },
   "x-tent": {
@@ -83,7 +83,7 @@ Object.assign(DETAILS, {
   },
   "x-health": {
     why: "When hospitals and dentists are overwhelmed, a toothache or a postponed surgery becomes a serious problem. Canadian Prepper puts the body at the base of his 'prepping pyramid', because walking out, carrying a child or doing cleanup takes strength and stamina. Getting checkups done now is free preparedness. Spare glasses and a medicine stock belong to the same step.",
-    use: "Schedule dental cleanings and fix known dental or medical issues now, while care is normal. Keep a simple routine of walking, carrying and strength work. Make sure the pregnant member's prenatal care and the toddler's vaccinations are current, and ask for printed records. Revisit yearly.",
+    use: "Schedule dental cleanings and fix known dental or medical issues now, while care is normal. Keep a simple routine of walking, carrying and strength work. Make sure everyone's checkups, prenatal care and vaccinations are current, and ask for printed records. Revisit yearly.",
   },
 });
 

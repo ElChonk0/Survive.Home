@@ -259,7 +259,7 @@ const ITEMS = [
     id: "f-nuts", cat: "food", p: 1, src: [0, 18], tier: "nc",
     name: "Trail mix, nuts & dried fruit (1 lb bags)",
     qty: (c) => [tierUnits(c, "nc", 0.2, 2200), "bags"],
-    why: "Calorie-dense and light. Whole nuts are a choking risk under age 4, so give the toddler dried fruit cut small instead.",
+    why: "Calorie-dense and light. Whole nuts are a choking risk under age 4, so give children under 4 dried fruit cut small instead.",
   },
   {
     id: "f-rte", cat: "food", p: 1, src: [28, 50], tier: "nc",
@@ -293,7 +293,7 @@ const ITEMS = [
     id: "f-oats-p", cat: "food", p: 2, src: [15, 24], tier: "pt",
     name: "Rolled oats (42 oz canisters)",
     qty: (c) => [tierUnits(c, "pt", 0.1, 4500), "canisters"],
-    why: "The fastest-cooking grain, and a breakfast toddlers already know.",
+    why: "The fastest-cooking grain, and a breakfast most kids already know.",
   },
   {
     id: "f-pb-p", cat: "food", p: 2, src: [28], tier: "pt",
@@ -365,7 +365,7 @@ const ITEMS = [
     name: "Multivitamins",
     qty: (c) => [c.days * c.vitPeople, "tablets"],
     basis: (c) => `${c.vitPeople} people × ${c.days} days (pregnant members take prenatal vitamins instead)`,
-    why: "Grain-and-bean diets run short on vitamin C (scurvy appears at 60–90 days), vitamin D and iodine. Use children's chewables for the toddler only if the pediatrician agrees.",
+    why: "Grain-and-bean diets run short on vitamin C (scurvy appears at 60–90 days), vitamin D and iodine. Give children's chewables only if the pediatrician agrees.",
   },
   {
     id: "f-flavor", cat: "food", p: 2, src: [22, 24, 28], when: (c) => c.days > 3,
@@ -426,7 +426,7 @@ const ITEMS = [
     id: "k-fire", cat: "cook", p: 1, src: [8, 20, 34],
     name: "Lighters + waterproof matches in a sealed container",
     qty: () => "3 lighters + 1 box matches",
-    why: "Test one match a year, since matches absorb humidity. Store them where the toddler can't reach.",
+    why: "Test one match a year, since matches absorb humidity. Store them out of children's reach.",
   },
   {
     id: "k-plates", cat: "cook", p: 2, src: [8],
@@ -499,7 +499,7 @@ const ITEMS = [
     id: "m-masks", cat: "med", p: 1, src: [0, 27, 39],
     name: "N95 respirators",
     qty: (c) => `${2 * c.at} adult N95s` + (c.kids ? ` + child-size masks for ${c.kids}` : ""),
-    why: "Paper dust masks don't stop smoke or fine dust. N95s aren't made to fit small children, so keep the toddler indoors in smoke.",
+    why: "Paper dust masks don't stop smoke or fine dust. N95s aren't made to fit small children, so keep small children indoors in smoke.",
   },
   {
     id: "m-glasses", cat: "med", p: 1, src: [8, 26], when: (c) => c.glasses > 0,
@@ -811,13 +811,13 @@ const ITEMS = [
     name: "Indoor-safe propane heater + fuel",
     qty: (c) => `1 heater + ${up(c.days * 1.5)} × 1-lb cylinders (or bulk tank)`,
     basis: () => "~1.5 cylinders/day on low, estimate",
-    why: "Gas furnaces need electricity. Use only indoor-rated units, with ventilation, a CO detector, 3 ft of clearance, and a gate around it for the toddler. Never use charcoal, grills, candle heaters, or the gas oven overnight. Insulate before you buy a heater.",
+    why: "Gas furnaces need electricity. Use only indoor-rated units, with ventilation, a CO detector, 3 ft of clearance, and a gate around it if there are small children. Never use charcoal, grills, candle heaters, or the gas oven overnight. Insulate before you buy a heater.",
   },
   {
     id: "t-warmers", cat: "temp", p: 2, src: [41, 45], when: (c) => c.hz.cold,
     name: "Hand warmers (or refillable catalytic)",
     qty: (c) => [c.at * Math.min(c.days, 14), "pairs"],
-    why: "Keep them off a toddler's skin.",
+    why: "Keep them off small children's skin.",
   },
   {
     id: "t-cool", cat: "temp", p: 1, src: [9, 12], when: (c) => c.hz.heat,
@@ -1252,7 +1252,7 @@ const ITEMS = [
     id: "t-hotwater", cat: "temp", p: 2, src: [118, 119], when: (c) => c.hz.cold,
     name: "Hot water bottles",
     qty: (c) => [Math.max(2, c.n), "bottles"],
-    why: "Safe, silent heat at the feet or core overnight. Eat a solid meal before sleep and add layers before you feel cold. For the toddler, wrap the bottle in a towel and check it isn't too hot.",
+    why: "Safe, silent heat at the feet or core overnight. Eat a solid meal before sleep and add layers before you feel cold. For small children, wrap the bottle in a towel and check it isn't too hot.",
   },
   {
     id: "b-bandana", cat: "bags", p: 3, src: [104],
