@@ -86,7 +86,8 @@ function buildContext(h) {
   const by = (f) => M.filter(f).length;
   const heat = h.hz.heat ? 1.5 : 1;
   const p = h.pets;
-  const petWaterDay = p.dogS * 0.25 + p.dogM * 0.5 + p.dogL * 1 + p.cat * 0.1;
+  // Government of Canada: about 4 L/day for an average dog and 1 L/day for a cat, so medium dog 1 gal, cat ¼ gal.
+  const petWaterDay = p.dogS * 0.5 + p.dogM * 1 + p.dogL * 1.5 + p.cat * 0.25;
   const days = Math.max(1, Math.round(h.days));
   const c = {
     days,
@@ -201,9 +202,11 @@ function isZeroQty(item, c) {
 function visibleItems(c) {
   return ITEMS.filter((it) => (!it.when || it.when(c)) && !isZeroQty(it, c));
 }
+// A source is a YouTube video id or, for web guidance such as the Government of Canada's, a full URL.
 function extLink(key) {
   const [vid, title, channel] = EXT_SOURCES[key];
-  return `<a class="ext" href="https://www.youtube.com/watch?v=${vid}" target="_blank" rel="noopener" title="${esc(title)}">${esc(channel)}</a>`;
+  const href = vid.startsWith("http") ? vid : `https://www.youtube.com/watch?v=${vid}`;
+  return `<a class="ext" href="${href}" target="_blank" rel="noopener" title="${esc(title)}">${esc(channel)}</a>`;
 }
 const PRI = { 1: ["Essential", "p1"], 2: ["Recommended", "p2"], 3: ["Upgrade", "p3"] };
 const byRank = (a, b) => RANK[a.id][0] - RANK[b.id][0] || RANK[a.id][1] - RANK[b.id][1];
@@ -218,6 +221,8 @@ const hasAlt = (it) => !!(ALTS[it.id] && ALTS[it.id].length);
 function channels(keys) {
   return [...new Set(keys.map((k) => EXT_SOURCES[k][2]))].join(", ");
 }
+// Who holds an alternative view: linked sources, or (for advice this checklist replaced) a plain label.
+const altWho = (a) => (a.by.length ? channels(a.by) : a.from);
 function firstSentence(s) {
   const m = String(s).match(/^.*?[.!?](\s|$)/);
   return m ? m[0].trim() : s;
@@ -412,7 +417,7 @@ function showTab() {
 function altBlock(a, c) {
   return `
         <div class="alt">
-          <p class="alt-by">${a.by.map(extLink).join(" · ")}</p>
+          <p class="alt-by">${a.by.length ? a.by.map(extLink).join(" · ") : esc(a.from)}</p>
           <p><b>They say:</b> ${esc(a.claim)}</p>
           <p><b>Their alternative:</b> ${esc(val(a.alt, c))}</p>
           <p class="alt-trade"><b>Trade-off:</b> ${esc(val(a.trade, c))}</p>
@@ -433,7 +438,7 @@ function itemRow(it, c, n) {
   const alts = ALTS[it.id] || [];
   const altsHtml = alts.length ? `
       <details class="alts" ${view.expand || view.disagree ? "open" : ""}>
-        <summary><span class="dis-chip">Disagreement</span> ${alts.length === 1 ? `${esc(channels(alts[0].by))} proposes an alternative` : `${alts.length} alternatives proposed`}</summary>
+        <summary><span class="dis-chip">Disagreement</span> ${alts.length === 1 ? `${esc(altWho(alts[0]))} proposes an alternative` : `${alts.length} alternatives proposed`}</summary>
         ${alts.map((a) => altBlock(a, c)).join("")}
       </details>` : "";
   const viewsHtml = altsHtml + (views.length ? `

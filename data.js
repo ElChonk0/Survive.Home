@@ -201,7 +201,7 @@ const ITEMS = [
     name: "Unscented regular bleach (6–8.25%)",
     qty: (c) => [Math.max(1, up(c.days / 45)), "gal"],
     basis: () => "1 gal minimum; replace yearly (loses ~20% strength a year)",
-    why: "Treat clear water with 6 drops per gallon (8 drops for 8.25% bleach), or double that for cloudy water after straining it through cloth. Stir, wait 30 min, and check for a faint chlorine smell. Double the dose if the bottle is over a year old. Measure with a medicine dropper. Also used for disinfecting and hantavirus-safe cleanup (1½ cups per gallon). Lock it away from children.",
+    why: "Treat clear water with 8 drops per gallon of 6% bleach (6 drops for 8.25%), or double that for cloudy water after straining it through cloth. Stir, wait 30 min, and check for a faint chlorine smell. Double the dose if the bottle is over a year old. Measure with a medicine dropper. Also used for disinfecting and hantavirus-safe cleanup (1½ cups per gallon). Lock it away from children.",
   },
   {
     id: "w-tabs", cat: "water", p: 2, src: [18, 41, 45],
@@ -885,10 +885,10 @@ const ITEMS = [
     why: "IDs, birth certificates, immunization records, insurance, deed/lease, account and policy numbers, prescriptions, pet records. Keep one set in the go bag and a second with a trusted person off-site.",
   },
   {
-    id: "d-cash", cat: "docs", p: 1, src: [0, 4, 23, 26, 58, 59, 70, 88],
-    name: "Cash in small bills ($1/$5/$10/$20)",
-    qty: (c) => (c.days > 14 ? "2 weeks of essential spending (1 month ideal)" : "1 week of essential spending"),
-    basis: () => "videos 59, 71, 89: 1 week minimum, 2 weeks better",
+    id: "d-cash", cat: "docs", p: 1, src: [0, 4, 23, 26, 58, 59, 70, 88, "gc-video"],
+    name: "Cash in small bills and coins",
+    qty: (c) => (c.days > 14 ? "3–4 weeks of essential spending" : "2–3 weeks of essential spending"),
+    basis: () => "Government of Canada: enough for basic needs for a few weeks (playlist: 1 week minimum)",
     why: "Card readers and ATMs fail with the power, and banks cap withdrawals in a crisis. Stores running on generators can't break big bills. Split it between home, car, and an off-site spot.",
   },
   {

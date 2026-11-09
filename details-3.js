@@ -165,7 +165,7 @@ Object.assign(DETAILS, {
     use: "Photocopy IDs, birth certificates, immunization records, insurance, deed or lease, account numbers, prescriptions and pet records. Seal one set in a waterproof pouch in the go bag and give one to a trusted person off-site. Also save photos in a secure cloud account. Update yearly.",
   },
   "d-cash": {
-    why: "Card readers, ATMs and phone payments all stop working without power or internet, and banks can cap withdrawals in a crisis. Cash keeps working. Stores running on generators often can't make change for big bills. The playlist recommends at least a week of essential spending, ideally two.",
+    why: "Card readers, ATMs and phone payments all stop working without power or internet, and banks can cap withdrawals in a crisis. Cash keeps working. Stores running on generators often can't make change for big bills. The Government of Canada recommends enough cash for basic needs for a few weeks, in small bills and coins. The playlist's minimum is one week (see the differing view below).",
     use: "Keep small bills split between a hidden spot at home, the car and an off-site location. Use it only for essentials (fuel, food, medicine) during an outage. Withdraw more 3–4 days before a forecast storm, before the lines. Rotate older bills into normal spending and replace.",
   },
   "d-contacts": {

@@ -120,7 +120,7 @@ Object.assign(DETAILS, {
   },
   "c-proof": {
     why: "Outages put dangerous things at toddler height: medicine, bleach, fuel, lighters and candles are left out as adults improvise. Poisoning and burns spike after disasters. A locked bin keeps everything in one safe place. Stoves, heaters and generators also need a barrier.",
-    use: "Put all medicine, bleach, alcohol, lighters and matches in the locking bin and keep the key on an adult. Store fuel outside. Set up a gate or barrier around any heater or stove. Save poison control's number (1-800-222-1222 in the US) on the contact card.",
+    use: "Put all medicine, bleach, alcohol, lighters and matches in the locking bin and keep the key on an adult. Store fuel outside. Set up a gate or barrier around any heater or stove. Save poison control's number on the contact card: 1-800-222-1222 in the US, or 1-844-POISON-X (1-844-764-7669) in Canada.",
   },
   "c-clothes": {
     why: "Clothes in the go bag that no longer fit are useless, and children grow fast. A change of clothes keeps them dry and warm if they get wet or messy. Sturdy shoes protect feet from debris and broken glass. Kids can't borrow from adults.",
